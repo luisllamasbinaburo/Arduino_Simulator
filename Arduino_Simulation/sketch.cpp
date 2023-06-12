@@ -7,7 +7,7 @@ void setup()
     pinMode(9, OUTPUT);
     pinMode(10, OUTPUT);
 
-    attachInterrupt(1, []() {digitalWrite(1, HIGH); }, CHANGE);
+    attachInterrupt(0, []() {digitalWrite(1, HIGH); }, CHANGE);
 
     println("Started");
 }

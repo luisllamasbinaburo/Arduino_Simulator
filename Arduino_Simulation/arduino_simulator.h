@@ -65,8 +65,18 @@ struct Interrupt
 {
 	int prev_value;
 	int mode;
-	void (*isr )(void) = nullptr;
+	void (*isr)(void) = nullptr;
 };
+
+struct State
+{
+	uint8_t Gpio_Mode[16];
+	uint8_t Gpio_Status[16];
+	uint8_t ADC_Input[8];
+	uint8_t PWM_Output[8];
+	Interrupt Interrups[2];
+};
+
 
 extern uint8_t Gpio_Mode[16];
 extern uint8_t Gpio_Status[16];
@@ -79,7 +89,7 @@ extern void pinMode(uint8_t pin, uint8_t mode);
 extern void digitalWrite(uint8_t pin, uint8_t val);
 extern int digitalRead(uint8_t pin);
 extern void analogWrite(uint8_t pin, int val);
-extern int analogRead(uint8_t pin); 
+extern int analogRead(uint8_t pin);
 extern void analogReference(uint8_t mode);
 
 extern unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout);

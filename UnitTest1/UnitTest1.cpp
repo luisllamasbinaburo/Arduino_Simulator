@@ -45,10 +45,24 @@ namespace UnitTest1
 		{
 			SIMULATION_STEP_US = 100;	
 
-			AT_MILLIS(2000, []() {SIMULATE_INTERRUPT(1, HIGH); });
+			AT_MILLIS(2000, []() {SIMULATE_INTERRUPT(0, HIGH); });
 			simulate_seconds(5);
 
 			Assert::IsTrue(Gpio_Status[1] == HIGH);
+		}
+
+		TEST_METHOD(SAVE_STATE_TEST)
+		{
+			SIMULATION_STEP_US = 100;	
+		
+			AT_MILLIS(1000, []() { digitalWrite(0, HIGH); });
+			AT_MILLIS(2000, []() { SAVE_STATE(); });
+			AT_MILLIS(3000, []() { digitalWrite(0, LOW); });
+			
+			simulate_seconds(5);
+
+			Assert::IsTrue(SaveStates[0].state.Gpio_Status[0] == HIGH);
+			Assert::IsTrue(Gpio_Status[0] == LOW);
 		}
 	};
 }

@@ -11,7 +11,16 @@ struct ScheduleTask
 	std::function<void()> action;
 };
 
+struct SaveState
+{
+	int micros;
+
+	State state;
+};
+
+
 static std::vector<ScheduleTask> schedule;
+static std::vector<SaveState> SaveStates;
 
 using namespace std;
 
@@ -79,10 +88,13 @@ void AT_MILLIS(long millis, std::function<void()> action)
 
 void init()
 {
+	arduino_simulation_time_counter = 0;
+	next_loop_time_counter = 0;
+
 	for (size_t i = 0; i < 16; i++)
 	{
-		Gpio_Mode[i] == OUTPUT;
-		Gpio_Status[i] == 0;
+		Gpio_Mode[i] = OUTPUT;
+		Gpio_Status[i] = 0;
 	}
 
 	for (size_t i = 0; i < 8; i++)
@@ -90,6 +102,29 @@ void init()
 		ADC_Input[i] = 0;
 		PWM_Output[i] = 0;
 	}
+}
+
+static void SAVE_STATE()
+{
+	State state;
+	SaveState savedState;
+
+	for (size_t i = 0; i < 16; i++)
+	{
+		state.Gpio_Mode[i] = Gpio_Mode[i];
+		state.Gpio_Status[i] = Gpio_Status[i];
+	}
+	for (size_t i = 0; i < 8; i++)
+	{
+		state.ADC_Input[i] = ADC_Input[i];
+		state.PWM_Output[i] = PWM_Output[i];
+	}
+
+	savedState.micros = arduino_simulation_time_counter;
+	savedState.state = state;
+
+
+	SaveStates.push_back(savedState);
 }
 
 static void SIMULATE_INTERRUPT(int interruptNum, int value)
@@ -136,7 +171,7 @@ static int simulate_microseconds(long microseconds)
 		if (arduino_simulation_time_counter >= next_loop_time_counter) loop();
 		arduino_simulation_time_counter += SIMULATION_STEP_US;
 	}
-
+		
 	cout << "\n********** simulation end **********";
 	return 0;
 }
