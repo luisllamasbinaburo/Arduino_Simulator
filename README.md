@@ -37,7 +37,11 @@ TEST_METHOD(MY_COOL_EXAMPLE_TEST)
 
 You can **use the testing environment of your IDE** to generate various unit tests or complete use cases.
 
+![](https://github.com/luisllamasbinaburo/Arduino_Simulator/blob/master/Screenshots/arduino-simulation-tests.png)
+
 Another advantage of simulating your machine is that you can **use the debugging features of your IDE** to check the state of the machine.
+
+![](https://github.com/luisllamasbinaburo/Arduino_Simulator/blob/master/Screenshots/arduino-simulation-debug.png)
 
 # When to use it
 ## What it is
