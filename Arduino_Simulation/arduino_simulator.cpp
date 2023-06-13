@@ -23,17 +23,17 @@ void digitalWrite(uint8_t pin, uint8_t val)
 
 int digitalRead(uint8_t pin)
 {
-    return  Gpio_Status[pin];
+    return Gpio_Status[pin];
 }
 
 void analogWrite(uint8_t pin, int val)
 {
-    ADC_Input[pin] = val;
+    PWM_Output[pin] = val;
 }
 
 int analogRead(uint8_t pin)
 {
-    return PWM_Output[pin];
+    return ADC_Input[pin];
 }
 
 void analogReference(uint8_t mode)
